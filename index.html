@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SONU QR PRINT</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#f1f5f9;
+  font-family:Arial,sans-serif;color:#172033
+}
+header{
+  background:#123b78;color:white;
+  text-align:center;padding:25px 15px;
+}
+header h1{margin:0;font-size:27px}
+header p{margin:8px 0 0}
+.container{
+  max-width:520px;margin:20px auto;padding:15px
+}
+.card{
+  background:white;border-radius:16px;
+  padding:20px;box-shadow:0 3px 15px #0001
+}
+h2{margin-top:0;color:#123b78}
+label{
+  display:block;margin-top:15px;
+  font-weight:bold;font-size:14px
+}
+input,select{
+  width:100%;padding:12px;margin-top:7px;
+  border:1px solid #ccd3df;border-radius:9px;
+  font-size:16px;background:white
+}
+button{
+  width:100%;padding:14px;margin-top:20px;
+  border:0;border-radius:10px;
+  background:#1265d6;color:white;
+  font-size:17px;font-weight:bold
+}
+button:disabled{opacity:.6}
+.note{
+  background:#eff6ff;padding:12px;
+  border-radius:9px;font-size:13px;margin-top:15px
+}
+#result{
+  margin-top:15px;padding:12px;
+  border-radius:9px;overflow-wrap:anywhere
+}
+footer{text-align:center;color:#64748b;padding:20px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>SONU QR PRINT</h1>
+<p>!! जय श्री कृष्णा !!</p>
+<p>Mobile • PDF • Photo Printing</p>
+</header>
+
+<div class="container">
+<div class="card">
+
+<h2>Print Order Form</h2>
+
+<form id="printForm">
+
+<label>Customer Name</label>
+<input id="customer" type="text"
+placeholder="अपना नाम लिखें" required>
+
+<label>Mobile Number</label>
+<input id="phone" type="tel"
+placeholder="10 अंकों का मोबाइल नंबर"
+pattern="[6-9][0-9]{9}" required>
+
+<label>Upload PDF / Photo</label>
+<input id="file" type="file"
+accept=".pdf,image/jpeg,image/png,image/webp"
+required>
+
+<label>Number of Copies</label>
+<input id="copies" type="number"
+min="1" max="100" value="1" required>
+
+<label>Print Type</label>
+<select id="color">
+<option value="bw">Black & White</option>
+<option value="color">Colour Print</option>
+</select>
+
+<label>Print Side</label>
+<select id="sides">
+<option value="single">Single Side</option>
+<option value="double">Double Side</option>
+</select>
+
+<label>Page Selection</label>
+<input id="pages" type="text"
+value="all" placeholder="all या 1-5">
+
+<label>Payment Method</label>
+<select id="payment">
+<option value="cash">Cash at Shop</option>
+<option value="upi">UPI Payment at Shop</option>
+</select>
+
+<div class="note">
+<strong>SONU MOBILE ACCESSORIES</strong><br>
+Stationery & Xerox<br>
+Amla Para, Durga Mandir, Jharia<br>
+Mob: 7492913315<br><br>
+अभी कीमत दुकान पर कन्फर्म होगी।
+</div>
+
+<button id="submitBtn" type="submit">
+SUBMIT PRINT ORDER
+</button>
+
+</form>
+
+<div id="result" aria-live="polite"></div>
+</div>
+</div>
+
+<footer>© SONU QR PRINT</footer>
+
+<script>
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+const form = document.getElementById("printForm");
+const result = document.getElementById("result");
+const submitBtn = document.getElementById("submitBtn");
+
+form.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const customer = document.getElementById("customer").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const file = document.getElementById("file").files[0];
+  const copies = Number(document.getElementById("copies").value);
+  const color = document.getElementById("color").value;
+  const sides = document.getElementById("sides").value;
+  const pages = document.getElementById("pages").value.trim();
+  const payment = document.getElementById("payment").value;
+
+  if (!/^[6-9][0-9]{9}$/.test(phone)) {…
